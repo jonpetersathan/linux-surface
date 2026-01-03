@@ -1,6 +1,6 @@
 # NOTE
 
-This is a fork of [linux-surface/linux-surface](https://github.com/linux-surface/linux-surface) to make the patches compatible with cachyos patches. The full configuration and instructions on how to build the cachyos kernel with surface patches can be found in [jonpetersathan/linux-surface-cachyos](https://github.com/jonpetersathan/linux-surface-cachyos).
+This is a fork of [linux-surface/linux-surface](https://github.com/linux-surface/linux-surface) to make the patches compatible with cachyos patches. The full configuration and instructions on how to build the cachyos kernel with surface patches can be found in [jonpetersathan/linux-cachyos-surface](https://github.com/jonpetersathan/linux-cachyos-surface).
 
 ## Updated and tested kernel versions
 
