@@ -147,3 +147,40 @@ index 2755601f9..4240c98ca 100644
 -- 
 2.52.0
 
+From ed9283aa2a4b5cbc5388c35492da46cad447cf52 Mon Sep 17 00:00:00 2001
+From: jonpetersathan <jonpetersathan@gmail.com>
+Date: Sun, 11 Jan 2026 14:08:20 +0100
+Subject: [PATCH] input/misc/soc-button-array: Fix wakeup from suspend not
+ working
+
+On some Surface devices (Surface Laptop 5 and Surface Pro 9) a race
+condition between the soc_button_array and pinctrl_icelake/tigerlake
+can lead to ACPI tables not being loaded correctly. In particular,
+if MSHW0040 is probed before the pinctrl module is loaded, the
+wakeup sources for the power button are not added, making the device
+unable to wake up from a suspended state when pressing the power
+button.
+
+This adds a soft dependency to the soc_button_array, ensuring it is
+loaded after pinctrl_icelake or pinctrl_tigerlake module.
+
+Tested on Surface Laptop 5. After the fix the device can be woken up
+reliably from a suspended state.
+
+Fixes: linux-surface/issues/1910, linux-surface/issues/1805, linux-surface/issues/1392
+Patchset: surface-button
+---
+ drivers/input/misc/soc_button_array.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 43b5d56383e3..40e65bb7c84e 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -605,3 +605,4 @@ module_platform_driver(soc_button_driver);
+
+ MODULE_DESCRIPTION("Windows-compatible SoC Button Array driver");
+ MODULE_LICENSE("GPL");
++MODULE_SOFTDEP("pre: pinctrl_icelake pinctrl_tigerlake");
+--
+2.52.0
